@@ -7,5 +7,6 @@ public interface ValidationService {
 	
 	public CustomErrorType validatePriceRequest(BitCoinPriceInfoRequest bitCoinPriceInfoRequest);
 	public CustomErrorType validateRollingPriceRequest(BitCoinPriceInfoRequest bitCoinPriceInfoRequest);
+	public CustomErrorType validatePredictedPriceRequest(int days);
 
 }

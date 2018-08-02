@@ -47,10 +47,18 @@ public class DateUtility {
 		Period period = startDate.until(todayDate);
 		return period.getDays();
 	}
-	
+
 	public static Date getDateAfterNDays(Date date, int n) {
 		Date modifiedDate = new Date(date.getTime() + (n * 24 * 3600 * 1000));
 		return modifiedDate;
+	}
+
+	public static Date getTrimmedDateAfterNDays(Date date, int n) {
+		Date parsedDate = trimDate(date);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(parsedDate);
+		cal.add(Calendar.DATE, n);
+		return cal.getTime();
 	}
 
 	public static Date asDate(LocalDate localDate) {
@@ -68,7 +76,7 @@ public class DateUtility {
 	public static LocalDateTime asLocalDateTime(Date date) {
 		return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
-	
+
 	public static Date trimDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -79,7 +87,7 @@ public class DateUtility {
 		date = cal.getTime();
 		return date;
 	}
-	
+
 	public static void main(String[] args) {
 		String date = "2017-11-26T00:00:00Z";
 		System.out.println(convertStringToDate(date, "yyyy-MM-dd'T'HH:mm:ss'Z'"));

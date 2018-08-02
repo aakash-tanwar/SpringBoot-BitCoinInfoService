@@ -41,8 +41,8 @@ public class CoinBaseClientServiceImpl implements CoinBaseClientService {
 			responseEntity = restTemplate.get(url, CoinBaseBitCoinInfoResponse.class);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
 
+		}
 		return mapResponse(responseEntity, coinBaseRequest.getStartDate(), coinBaseRequest.getEndDate(),
 				coinBaseRequest.isFilterData());
 	}
@@ -68,7 +68,6 @@ public class CoinBaseClientServiceImpl implements CoinBaseClientService {
 			CoinBaseBitCoinInfo baseBitCoinInfo = coinBaseApiResponse.getData();
 			if (Objects.nonNull(baseBitCoinInfo)) {
 				List<CoinBasePrice> coinBasePriceList = baseBitCoinInfo.getPrices();
-				System.out.println("Size is :: "+coinBasePriceList.size());
 				if (Objects.nonNull(coinBasePriceList) && !coinBasePriceList.isEmpty()) {
 					List<Price> priceList = mapToPriceList(coinBasePriceList, startDate, endDate, isFilterData);
 					if (!priceList.isEmpty()) {
@@ -84,15 +83,23 @@ public class CoinBaseClientServiceImpl implements CoinBaseClientService {
 	private List<Price> mapToPriceList(List<CoinBasePrice> coinBasePriceList, Date startDate, Date endDate,
 			boolean isFilterData) {
 		List<Price> prices = new ArrayList<Price>();
-		
+		List<Price> filteredPrices = new ArrayList<Price>();
+
 		prices = coinBasePriceList.stream()
 				.map(coinBasePrice -> mapToPrice(coinBasePrice))
 				.filter(coinBasePrice -> Objects.nonNull(coinBasePrice.getTime()))
-				.filter(coinBasePrice -> isFilterData || coinBasePrice.getTime().after(startDate))
-				.filter(coinBasePrice -> isFilterData || coinBasePrice.getTime().before(endDate))
 				.collect(Collectors.toList());
-		
-		return prices;
+
+		if (isFilterData) {
+			filteredPrices = prices.stream()
+					.filter(coinBasePrice -> coinBasePrice.getTime().after(startDate))
+					.filter(coinBasePrice -> coinBasePrice.getTime().before(endDate))
+					.collect(Collectors.toList());
+		} else {
+			filteredPrices = prices;
+		}
+
+		return filteredPrices;
 	}
 
 	private Price mapToPrice(CoinBasePrice coinBasePrice) {

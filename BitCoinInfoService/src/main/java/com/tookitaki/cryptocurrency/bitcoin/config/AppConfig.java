@@ -30,7 +30,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Configuration
 @EnableRetry
-@PropertySources({ @PropertySource(value = "classpath:bitCoinInfo.properties") })
+@PropertySources({ @PropertySource(value = "classpath:bitCoinInfo.properties"),
+		@PropertySource(value = "classpath:linearRegressionWeights.properties") })
 public class AppConfig {
 
 	@Autowired

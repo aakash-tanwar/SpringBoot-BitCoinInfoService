@@ -10,6 +10,26 @@ public class CoinBaseRequest {
 	private boolean isFilterData;
 	private Date startDate;
 	private Date endDate;
+	
+	public CoinBaseRequest() {
+	}
+
+	public CoinBaseRequest(Period preriod, boolean isFilterData, Date startDate, Date endDate) {
+		super();
+		this.preriod = preriod;
+		this.isFilterData = isFilterData;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
+	public static CoinBaseRequest from(BitCoinPriceInfoRequest bitCoinPriceInfoRequest) {
+		CoinBaseRequest baseRequest = new CoinBaseRequest();
+		baseRequest.setPreriod(Period.YEAR);
+		baseRequest.setStartDate(bitCoinPriceInfoRequest.getStartDate());
+		baseRequest.setEndDate(bitCoinPriceInfoRequest.getEndDate());
+		baseRequest.setFilterData(false);
+		return baseRequest;
+	}
 
 	public Period getPreriod() {
 		return preriod;
