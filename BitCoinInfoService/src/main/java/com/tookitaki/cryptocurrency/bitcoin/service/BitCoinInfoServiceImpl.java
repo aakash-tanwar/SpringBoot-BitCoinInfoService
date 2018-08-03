@@ -105,6 +105,8 @@ public class BitCoinInfoServiceImpl implements BitCoinInfoService {
 			if (todayPriceData.getTime().equals(pridictedPriceData.getTime())) {
 				double todayPrice = todayPriceData.getPrice();
 				double pridictedPrice = pridictedPriceData.getPrice();
+				LOGGER.info("Today price : " + todayPrice);
+				LOGGER.info("Forcasted price : " + pridictedPrice);
 				recommendedDecisions.add(getOptimisticStrategy(pridictedPrice, todayPrice));
 				recommendedDecisions.add(getSafeDecision(pridictedPrice, todayPrice));
 			}
